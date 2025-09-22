@@ -20,7 +20,7 @@ public class EnvService
     public static string[] GetAudiences()
     {
         Env.Load();
-        string audience = Environment.GetEnvironmentVariable("AUDIENCE");
+        string audience = Environment.GetEnvironmentVariable("AUDIENCES");
         string[] audiences = audience.Split(',');
         return audiences;
     }
