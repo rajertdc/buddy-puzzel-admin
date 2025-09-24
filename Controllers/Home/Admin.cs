@@ -8,12 +8,10 @@ namespace AdminPortal.Controllers;
 public class Admin : Controller
 {
     [Authorize(Roles = "Administrator")]
-    public IActionResult Index(string token)
+    public IActionResult Index()
     {
         try
         {
-            Console.WriteLine(User.IsInRole("Administrator") + " LINE FROM ADMIN CONTROLLER");
-            Console.WriteLine(token);
             return View();
         }
         catch (Exception ex)

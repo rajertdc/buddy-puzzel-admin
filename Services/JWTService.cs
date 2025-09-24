@@ -1,8 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.InteropServices.JavaScript;
-using System.Security.Claims;
 using System.Text;
-using DotNetEnv;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AdminPortal.Services;
@@ -22,8 +19,8 @@ public class JWTService
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "tdc.dk",
-            ValidAudiences = new[] { "tdc.dk" , "dsb.dk" , "skat.dk" },
+            ValidIssuer = issuer,
+            ValidAudiences = audience,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
 
         };

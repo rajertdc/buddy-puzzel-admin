@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using AdminPortal.Services;
+using AdminPortal.Services.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -74,10 +75,6 @@ public class Account : Controller
         };
         Console.WriteLine($"Current User's tokentype {tokenType}");
         
-        //Adding claims to Users Identities in order to authenticate user
-        var identity = new ClaimsIdentity(claims, "JWT");
-        User.AddIdentity(identity);
-        Console.WriteLine(User.IsInRole("Administrator"));
         
         
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EnvService.GetSecretKey()));
@@ -91,5 +88,11 @@ public class Account : Controller
             signingCredentials: creds);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+    
+    public Task<IActionResult> SignOut()
+    {
+        
+        return this.SignOutUser();
     }
 }

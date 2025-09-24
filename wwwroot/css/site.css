@@ -1,22 +1,69 @@
-html {
-  font-size: 14px;
+/* Top bar */
+.topbar {
+    height: 56px;
+    background-color: #0072ce; /* Webex blue */
+    color: #fff;
+}
+.topbar-hamburger {
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+}
+.topbar-logo {
+    height: 24px;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+/* Avatar */
+.avatar {
+    background-color: #d9f0ff;
+    color: #003f6b;
+    font-weight: 600;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: #fff;
+    border-right: 1px solid #e0e0e0;
+    min-height: calc(100vh - 56px); /* full height minus topbar */
+    transition: margin-left 0.3s ease;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+/* Sidebar links */
+.sidebar .nav-link {
+    color: #333;
+    border-radius: 4px;
+    padding: 6px 10px;
+    margin-bottom: 4px;
+    transition: background-color 0.2s ease;
+}
+.sidebar .nav-link:hover {
+    background-color: #f5f5f5;
+    color: #000;
+}
+.sidebar .nav-link.active {
+    background-color: #e9ecef;
+    font-weight: 500;
 }
 
-body {
-  margin-bottom: 60px;
+/* Collapse effect using checkbox hack */
+#sidebar-toggle:not(:checked) ~ .app .sidebar {
+    margin-left: -260px;
+}
+#sidebar-toggle:checked ~ .app .sidebar {
+    margin-left: 0;
+}
+.menuItems {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+.menuItems:hover, .menuItems:focus {
+    text-decoration: underline;
+    color: #0000BF; /* Optional: set hover color */
 }
