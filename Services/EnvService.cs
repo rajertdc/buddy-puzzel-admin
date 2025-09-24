@@ -24,4 +24,11 @@ public class EnvService
         string[] audiences = audience.Split(',');
         return audiences;
     }
+    
+    public static string GetConnectionString()
+    {
+        Env.Load();
+        string connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        return connectionString;
+    }
 }

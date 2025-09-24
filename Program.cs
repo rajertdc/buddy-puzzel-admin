@@ -1,10 +1,13 @@
 using System.Text;
 using AdminPortal.Services;
+using AdminPortal.Services.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using DotNetEnv;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
-Env.Load();
+
 
 string secretKey = EnvService.GetSecretKey();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -45,6 +48,8 @@ app.Use(async (context, next) =>
 
     await next();
 });
+
+Context context = new Context();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
