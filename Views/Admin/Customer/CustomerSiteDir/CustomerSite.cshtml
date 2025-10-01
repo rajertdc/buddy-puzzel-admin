@@ -1,0 +1,27 @@
+@model AdminPortal.Models.CustomerSite
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    
+</head>
+<body>
+<div>
+    <h1>@Model.name</h1>
+    <p>@Model.domain</p>
+</div>
+@section Catalogs
+{
+    <div class="menuItems">&nbsp;<a class="menuItems" asp-area="" asp-controller="Admin"
+                                    asp-action="CustomerSiteCatalogs" asp-route-customerSiteId="@Model.id"><i class="fa fa-building"></i>&nbsp;&nbsp;Kataloger</a>
+    </div>
+}
+</body>
+</html>

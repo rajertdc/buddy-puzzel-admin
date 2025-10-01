@@ -1,0 +1,39 @@
+@model List<AdminPortal.Models.CustomerSiteCatalog>
+
+@{
+    Layout = "_Layout";
+}
+
+
+<title></title>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+
+<body>
+<div>
+
+    <span style="display: inline-flex">
+        <h2>Kataloger for @ViewBag.CustomerSite.name</h2>
+        <button type="button" class="btn btn-primary" style="margin-left: 20px; margin-bottom: 20px">Opret nyt katalog for @ViewBag.CustomerSite.name</button>
+        </span>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col" class="border-end">Katalog Navn</th>
+            <th scope="col" class="border-end">Beskrivelse</th>
+            <th scope="col" class="border-end">Type</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        @foreach (var catalog in Model)
+        {
+            <tr>
+                <td>@catalog.catalogName</td>
+                <td>@catalog.catalogDescription</td>
+                <td>@catalog.typeName</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+</div>
+</body>

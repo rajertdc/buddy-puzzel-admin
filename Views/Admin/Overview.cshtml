@@ -1,0 +1,139 @@
+@model List<AdminPortal.Models.Customer>
+
+@{
+    Layout = "_Layout";
+    var btnGap = "10px";
+}
+<title>Kunder</title>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+<div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addNoteModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<h2>Kunder</h2>
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+    <input id="customer-search" type="text" class="form-control" placeholder="Søg efter kunder" aria-label="Search"
+           aria-describedby="basic-addon1">
+</div>
+<div class="btn m-2 d-flex" role="group" aria-label="Basic checkbox toggle button group">
+    <div style="margin-right: @btnGap; margin-left: -10px">
+        <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btncheck1">Senest set</label>
+    </div>
+
+    <div style="margin-right: @btnGap">
+        <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btncheck2">Har advarsel status</label>
+    </div>
+
+    <div style="margin-right: @btnGap">
+        <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btncheck3">Har kritisk status</label>
+    </div>
+    <button type="button" class="btn btn-primary ms-auto" style="margin-right: -20px">Opret ny kunde</button>
+</div>
+<div class="customer-contents">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col" class="border-end">Navn</th>
+            <th scope="col" class="border-end">Adresse</th>
+            <th scope="col" class="border-end">By</th>
+            <th scope="col" class="border-end">Postnummer</th>
+            <th scope="col" class="border-end">Primær telefon</th>
+            <th scope="col" class="border-end">Noter</th>
+            <th scope="col" class="border-end">Handlinger</th>
+        </tr>
+        </thead>
+        <tbody id="customers-body" class="table-group-divider">
+        @foreach (var customer in @Model)
+        {
+            <tr onclick="window.location.href='/customers/@customer.id/'" style="cursor: pointer">
+                <td style="margin-left: 10px">@customer.name</td>
+                <td style="margin-left: 2px">@customer.address</td>
+                <td style="margin-left: 2px">@customer.city</td>
+                <td style="margin-left: 2px">@customer.postalCode</td>
+                <td style="margin-left: 2px">@customer.mainPhone</td>
+                <td style="margin-left: 2px">@customer.notes</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addNoteModal" style="margin: 10px" onclick="event.stopPropagation(); addNote(event)">
+                        Tilføj note
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+</div>
+<script>
+    const searchInput = document.getElementById('customer-search');
+    const tbody = document.getElementById('customers-body');
+    let debounceTimer;
+
+    searchInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(runSearch, 250);
+    });
+
+    async function runSearch() {
+        const term = searchInput.value.trim();
+        try {
+            const resp = await fetch(`/Admin/Search?term=${encodeURIComponent(term)}`, {headers: {'Accept': 'application/json'}});
+            if (!resp.ok) return;
+            const data = await resp.json();
+            renderRows(data);
+        } catch (e) {
+            console.error('Search error', e);
+        }
+    }
+
+    function renderRows(list) {
+        tbody.innerHTML = '';
+        if (!list || !list.length) {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">Ingen kunder</td></tr>';
+            return;
+        }
+        for (const c of list) {
+            const tr = document.createElement('tr');
+            tr.style.cursor = 'pointer';
+            tr.onclick = () => window.location.href = `/customers/${c.id}/customerSites`;
+            tr.innerHTML = `
+                <td style="margin-left:10px">${escapeHtml(c.name ?? '')}</td>
+                <td style="margin-left:2px">${escapeHtml(c.address ?? '')}</td>
+                <td style="margin-left:2px">${escapeHtml(c.city ?? '')}</td>
+                <td style="margin-left:2px">${escapeHtml(c.postalCode ?? '')}</td>
+                <td style="margin-left:2px">${escapeHtml(c.mainPhone ?? '')}</td>
+                <td style="margin-left:2px">${escapeHtml(c.notes ?? '')}</td>
+                <td><button onclick="addNote(event)" type="button" class="btn btn-outline-primary" style="margin:10px">Tilføj note</button></td>`;
+            tbody.appendChild(tr);
+        }
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>"]+/g, function (c) {
+            return ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c] || c;
+        });
+    }
+
+    function addNote(e) {
+        e?.stopPropagation();
+        // TODO: implement add note
+    }
+</script>

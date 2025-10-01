@@ -14,4 +14,17 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Views\ViewModels\" />
+      <Folder Include="wwwroot\css\Admin\" />
+      <Folder Include="wwwroot\css\Home\" />
+      <Folder Include="wwwroot\css\Shared\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Home\Sidebar\Customers.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Sidebar\CatalogsSidebar.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Sidebar\CustomerSitesSidebar.cshtml" />
+    </ItemGroup>
+
 </Project>

@@ -1,0 +1,50 @@
+@model List<AdminPortal.Models.CustomerSite>
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>CustomerSite</title>
+    <link rel="-stylesheet" href="css/Admin/CustomerSite.css" asp-append-version="true"></link>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+
+</head>
+<body>
+<div>
+    <h1 class="h1">@ViewBag.Customer.name's kunder</h1>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col" class="border-end">Navn</th>
+            <th scope="col" class="border-end">Organisation ID</th>
+            <th scope="col" class="border-end">ID</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        @foreach (var customerSite in Model)
+        {
+            <tr onclick="window.location.href='/customers/@customerSite.id/@customerSite.id'" style="cursor: pointer">
+                <td>@customerSite.name</td>
+                <td>@customerSite.customerId</td>
+                <td>@customerSite.id</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <form>
+        <button type="submit" class="btn btn-primary" asp-action="CreateCustomerSite" asp-controller="Admin" asp-route-customerid="@ViewBag.Customer.id">Opret kundeside</button>
+    </form>
+</div>
+@section CustomerSites
+{
+    <div class="menuItems"><a class="menuItems" asp-area="" asp-controller="Admin" asp-action="CustomerSites" asp-route-id="@ViewBag.Customer.id">&nbsp;
+        <i class="fa fa-list-ul"></i>&nbsp;&nbsp;Kunder</a></div>
+}
+
+</body>
+</html>

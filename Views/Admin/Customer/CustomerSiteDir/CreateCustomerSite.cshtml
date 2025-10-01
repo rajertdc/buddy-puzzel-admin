@@ -1,0 +1,22 @@
+@model AdminPortal.Models.CustomerSite
+@{
+    Layout = "_Layout";
+    var inputfieldgap = "10px";
+}
+
+
+<title>Opret kunde</title>
+<body>
+<div>
+    <form >
+        <div style="margin: 10px">
+            <input class="form-control" type="text" placeholder="Indsæt navn" name="name" style="margin-bottom: @inputfieldgap">
+            <input class="form-control" type="text" style="margin-bottom: @inputfieldgap" readonly>
+            <input class="form-control" type="text" placeholder="Indsæt domæne" style="margin-bottom: @inputfieldgap">
+            <button type="submit" class="btn btn-primary" style="margin-top: @inputfieldgap">Opret</button>
+        </div>
+    </form>
+</div>
+
+
+</body>

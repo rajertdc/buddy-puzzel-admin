@@ -1,3 +1,5 @@
+using AdminPortal.Models;
+
 namespace AdminPortal.Services;
 using DotNetEnv;
 
@@ -24,11 +26,23 @@ public class EnvService
         string[] audiences = audience.Split(',');
         return audiences;
     }
-    
-    public static string GetConnectionString()
+
+    internal class API
     {
-        Env.Load();
-        string connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-        return connectionString;
+        public static string GetToken()
+        {
+            Env.Load();
+            string token = Environment.GetEnvironmentVariable("TOKEN");
+            return token;
+        }
+        
+        public static string GetBaseUrl()
+        {
+            Env.Load();
+            string baseUrl = Environment.GetEnvironmentVariable("BASE_URL");
+            return baseUrl;
+        }
+        
     }
+    
 }

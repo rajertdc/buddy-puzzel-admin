@@ -1,0 +1,19 @@
+@model AdminPortal.Models.Customer
+
+@{
+    Layout = "_Layout";
+}
+
+
+<title>@Model.name</title>
+<body>
+<div>
+    <h1>@Model.name's overblik</h1>
+</div>
+@section CustomerSites
+{
+    <div class="menuItems"><a class="menuItems" asp-area="" asp-controller="Admin" asp-action="CustomerSites" asp-route-id="@Model.id">
+        <i class="fa fa-list-ul"></i>&nbsp;&nbsp;Kunder</a></div>
+}
+
+</body>
