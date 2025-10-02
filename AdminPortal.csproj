@@ -25,6 +25,9 @@
       <_ContentIncludedByDefault Remove="Views\Home\Sidebar\Customers.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Shared\Sidebar\CatalogsSidebar.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Shared\Sidebar\CustomerSitesSidebar.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Admin\Monitoring\Analysis.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Admin\Monitoring\Reports.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Admin\Services\Licenses.cshtml" />
     </ItemGroup>
 
 </Project>

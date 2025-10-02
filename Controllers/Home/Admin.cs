@@ -16,6 +16,26 @@ public class Admin : Controller
         return View(customers);
     }
 
+    public IActionResult Administrators()
+    {
+        return View("Administration/Administrators");
+    }
+
+    public IActionResult Account()
+    {
+        return View("Administration/Account");
+    }
+
+    public IActionResult OrgSettings()
+    {
+        return View("Administration/OrgSettings");
+    }
+
+    public IActionResult Resources()
+    {
+        return View("Administration/ResourcesAndHelp");
+    }
+
     [HttpGet]
     public IActionResult Search(string term)
     {
@@ -37,21 +57,21 @@ public class Admin : Controller
     {
         var customerSites = APIService.CustomerSites.GetAllCustomerSitesByCustomerId(id);
         ViewBag.Customer = APIService.Customers.GetCustomerById(id);
-        return View("Customer/CustomerSiteDir/CustomerSites", customerSites);
+        return View("Administration/CustomerSiteDir/CustomerSites", customerSites);
     }
 
     [Route("customers/{siteId}/{customerSiteId}/")]
     public IActionResult CustomerSite(string siteId)
     {
         var customerSite = APIService.CustomerSites.GetCustomerSiteById(siteId);
-        return View("Customer/CustomerSiteDir/CustomerSite", customerSite);
+        return View("Administration/CustomerSiteDir/CustomerSite", customerSite);
     }
 
     [Route("customers/{customerId}/")]
     public IActionResult Customer(string customerId)
     {
         var customer = APIService.Customers.GetCustomerById(customerId);
-        return View("Customer/Customer", customer);
+        return View("Administration/Customer", customer);
     }
 
     public IActionResult CustomerSiteCatalogs(string customerSiteId)
@@ -63,7 +83,7 @@ public class Admin : Controller
 
         var customer = APIService.Customers.GetCustomerById(customerSite.customerId);
         ViewBag.Customer = customer;
-        return View("Customer/CustomerSiteDir/CustomerSiteCatalogs", customerSiteCatalogs);
+        return View("Administration/CustomerSiteDir/CustomerSiteCatalogs", customerSiteCatalogs);
     }
 
     public IActionResult CreateCustomer()
@@ -79,4 +99,5 @@ public class Admin : Controller
     {
         return View("Create/CreateCustomerSiteCatalog");
     }
+    
 }
