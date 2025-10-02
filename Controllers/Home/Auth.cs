@@ -20,52 +20,45 @@ public class Auth : Controller
     {
         _configuration = configuration;
     }
+
     [HttpPost]
     public IActionResult Authenticate(string email, string password)
     {
         HashAlgorithm sha = SHA256.Create();
         sha.ComputeHash(Encoding.UTF8.GetBytes(password));
         string[] emailArray = email.Split("@");
-        string domain =  emailArray[1];
-        
+        string domain = emailArray[1];
+        Console.WriteLine($"Current domain: {domain}");
+
         switch (domain)
         {
             case "tdc.dk":
                 var adminToken = GenerateJwtToken("tdc.dk");
-                JWTService.Authenticate(adminToken);
-                Response.Cookies.Append("AuthToken", adminToken, new CookieOptions { HttpOnly = true, Secure = true} );
+                var principal = JWTService.Authenticate(adminToken);
+
+                Response.Cookies.Append("AuthToken", adminToken, new CookieOptions { HttpOnly = true, Secure = true });
                 return RedirectToAction("Overview", "Admin");
-            case "dsb.dk":
-                var dsbToken = GenerateJwtToken("dsb.dk");
-                JWTService.Authenticate(dsbToken);
-                Response.Cookies.Append("AuthToken", dsbToken, new CookieOptions { HttpOnly = true, Secure = true} );
-                return RedirectToAction("Index", "DSB");
-            case "skat.dk":
-                var skatToken = GenerateJwtToken("skat.dk");
-                JWTService.Authenticate(skatToken);
-                Response.Cookies.Append("AuthToken", skatToken, new CookieOptions { HttpOnly = true, Secure = true} );
-                return RedirectToAction("Index", "SKAT");
+
+
             default:
-                return RedirectToAction("Login", "Home");
+                return RedirectToAction("NotAuthorized", "Home");
         }
     }
 
     private string GenerateJwtToken(string domain)
     {
-        //Checking which domain is trying to access the page. 
+        //Checking which domain is trying to access the page.
         //Giving user access to certain parts of application depending on domain
         string tokenType = "";
         if (domain.ToLower() == "tdc.dk")
         {
             tokenType = "Administrator";
-        } else if (!domain.ToLower().IsNullOrEmpty())
+        }
+        else if (!domain.ToLower().IsNullOrEmpty())
         {
             tokenType = "Customer";
         }
-        
-        //Loading .env file to access env variables
-        Env.Load();
-        
+
         //Creating claims array
         var claims = new[]
         {
@@ -74,12 +67,11 @@ public class Auth : Controller
             new Claim(ClaimTypes.Role, tokenType),
         };
         Console.WriteLine($"Current User's access: {tokenType}");
-        
-        
-        
+
+
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EnvService.GetSecretKey()));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        
+
         var token = new JwtSecurityToken(
             issuer: "tdc.dk",
             audience: domain,
@@ -89,10 +81,9 @@ public class Auth : Controller
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
-    
+
     public Task<IActionResult> SignOut()
     {
-        
         return this.SignOutUser();
     }
 }

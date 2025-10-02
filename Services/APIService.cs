@@ -38,10 +38,6 @@ public class APIService
             List<Customer> customers = new List<Customer>();
             client.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response2 = client.GetAsync("customers/").Result;
-            Console.WriteLine($"This is status code for response 2 with base address {response2.StatusCode}");
-            var json2 = response2.Content.ReadAsStringAsync().Result;
-            Console.WriteLine($"Json with BaseAddress {json2}");
             var response = client.GetAsync(customersUrl).Result;
             if (response.IsSuccessStatusCode)
             {

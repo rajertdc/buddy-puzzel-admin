@@ -1,0 +1,41 @@
+
+@{
+    Layout = "_Layout";
+    var inputfieldgap = "10px";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Opret ny kunde</title>
+</head>
+<body>
+<div>
+    <div>
+        <form>
+            <div style="margin: 10px">
+            <h2>Opret kunde</h2>
+                <input class="form-control" type="text" style="margin-bottom: @inputfieldgap" name="id" readonly>
+                <input class="form-control" type="text" placeholder="Navn" name="name"
+                       style="margin-bottom: @inputfieldgap">
+                <input class="form-control" type="text" placeholder="Adresse" name="address"
+                       style="margin-bottom: @inputfieldgap">
+                <input class="form-control" type="text" placeholder="Postnummer" name="postalCode"
+                       style="margin-bottom: @inputfieldgap">
+                <input class="form-control" type="text" placeholder="By" name="city"
+                       style="margin-bottom: @inputfieldgap">
+                <input class="form-control" type="text" placeholder="Telefonnummer" name="mainPhone"
+                       style="margin-bottom: @inputfieldgap">
+                <input class="form-control" type="text" placeholder="Land" name="country"
+                       style="margin-bottom: @inputfieldgap">
+                <input class="form-control" type="text" placeholder="Noter" name="notes"
+                       style="margin-bottom: @inputfieldgap">
+                <button type="submit" class="btn btn-primary" style="margin-top: @inputfieldgap">Opret</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

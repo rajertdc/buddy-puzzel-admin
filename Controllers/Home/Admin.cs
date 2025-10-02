@@ -3,19 +3,19 @@ using AdminPortal.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using AdminPortal.Controllers.Customers; // added for filtering
 
 namespace AdminPortal.Controllers;
 
+[Authorize(Roles = "Administrator")]
 public class Admin : Controller
 {
-    [Authorize(Roles = "Administrator")]
     public IActionResult Overview()
     {
         var customers = APIService.Customers.GetAllCustomers();
+
         return View(customers);
     }
-    
+
     [HttpGet]
     public IActionResult Search(string term)
     {
@@ -23,13 +23,15 @@ public class Admin : Controller
         if (!string.IsNullOrWhiteSpace(term))
         {
             var filtered = customers
-                .Where(c => !string.IsNullOrWhiteSpace(c.name) && c.name.Contains(term, StringComparison.OrdinalIgnoreCase))
+                .Where(c => !string.IsNullOrWhiteSpace(c.name) &&
+                            c.name.Contains(term, StringComparison.OrdinalIgnoreCase))
                 .ToList();
             return Json(filtered);
         }
+
         return Json(customers);
     }
-    
+
     [Route("customers/{id}/customerSites")]
     public IActionResult CustomerSites(string id)
     {
@@ -42,9 +44,9 @@ public class Admin : Controller
     public IActionResult CustomerSite(string siteId)
     {
         var customerSite = APIService.CustomerSites.GetCustomerSiteById(siteId);
-        return View("Customer/CustomerSiteDir/CustomerSite",customerSite);
+        return View("Customer/CustomerSiteDir/CustomerSite", customerSite);
     }
-    
+
     [Route("customers/{customerId}/")]
     public IActionResult Customer(string customerId)
     {
@@ -55,8 +57,8 @@ public class Admin : Controller
     public IActionResult CustomerSiteCatalogs(string customerSiteId)
     {
         var customerSiteCatalogs = APIService.CustomerSiteCatalogs.GetCustomerSiteCatalogs(customerSiteId);
-        
-        var customerSite =  APIService.CustomerSites.GetCustomerSiteById(customerSiteId);
+
+        var customerSite = APIService.CustomerSites.GetCustomerSiteById(customerSiteId);
         ViewBag.CustomerSite = customerSite;
 
         var customer = APIService.Customers.GetCustomerById(customerSite.customerId);
@@ -64,10 +66,17 @@ public class Admin : Controller
         return View("Customer/CustomerSiteDir/CustomerSiteCatalogs", customerSiteCatalogs);
     }
 
+    public IActionResult CreateCustomer()
+    {
+        return View("Create/CreateCustomer");
+    }
     public IActionResult CreateCustomerSite()
     {
-        return View("Customer/CustomerSiteDir/CreateCustomerSite");
+        return View("Create/CreateCustomerSite");
     }
 
-    
+    public IActionResult CreateCustomerSiteCatalog()
+    {
+        return View("Create/CreateCustomerSiteCatalog");
+    }
 }

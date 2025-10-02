@@ -1,0 +1,44 @@
+
+@{
+    Layout = "_Layout";
+    var inputfieldgap = "10px";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Opret katalog</title>
+</head>
+<body>
+<div>
+    <div>
+        <form>
+            <div style="margin: 10px">
+                <h2>Opret Katalog</h2>
+                
+                <input class="form-control" type="text" style="margin-bottom: @inputfieldgap" name="catalogId" readonly>
+                <input class="form-control" type="text" placeholder="Navn" name="catalogName"
+                       style="margin-bottom: @inputfieldgap">
+                <textarea class="form-control" type="text" placeholder="Beskrivelse" name="catalogDescription"
+                          style="margin-bottom: @inputfieldgap"></textarea>
+                <input class="form-control" type="text" placeholder="Type" name="typeName"
+                       style="margin-bottom: @inputfieldgap">
+                <input class="form-control" id="input-dateTime" type="datetime" name="createdDateTime"
+                       style="margin-bottom: @inputfieldgap" readonly>
+                
+                <button type="submit" class="btn btn-primary" style="margin-top: @inputfieldgap">Opret</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var inputfield = document.getElementById("input-dateTime");
+        inputfield.value = new Date(Date.now()).toLocaleString("en-US");
+    });
+</script>
+</body>
+</html>

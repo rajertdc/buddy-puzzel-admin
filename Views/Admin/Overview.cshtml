@@ -6,25 +6,7 @@
 }
 <title>Kunder</title>
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-<div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addNoteModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <h2>Kunder</h2>
 <div class="input-group mb-3">
     <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
@@ -46,7 +28,9 @@
         <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
         <label class="btn btn-outline-primary" for="btncheck3">Har kritisk status</label>
     </div>
-    <button type="button" class="btn btn-primary ms-auto" style="margin-right: -20px">Opret ny kunde</button>
+    <a asp-action="CreateCustomer" asp-controller="Admin">
+        <button type="button" class="btn btn-primary ms-auto" style="margin-right: -20px">Opret ny kunde</button>
+    </a>
 </div>
 <div class="customer-contents">
     <table class="table table-striped table-hover">
@@ -72,7 +56,8 @@
                 <td style="margin-left: 2px">@customer.mainPhone</td>
                 <td style="margin-left: 2px">@customer.notes</td>
                 <td>
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addNoteModal" style="margin: 10px" onclick="event.stopPropagation(); addNote(event)">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                            data-target="#addNoteModal" style="margin: 10px" onclick="openAddNoteModal(event)">
                         Tilføj note
                     </button>
                 </td>
@@ -80,7 +65,26 @@
         }
         </tbody>
     </table>
-
+    <div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addNoteModalLabel">Tilføj note</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea placeholder="Skriv note her" style="border: none" class="form-control"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     const searchInput = document.getElementById('customer-search');
@@ -137,3 +141,8 @@
         // TODO: implement add note
     }
 </script>
+<script>
+    function openAddNoteModal(e) {
+    e.stopPropagation();
+    $('#addNoteModal').modal('show'); // Requires jQuery and Bootstrap JS
+}            </script>

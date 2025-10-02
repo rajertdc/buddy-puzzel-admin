@@ -13,7 +13,7 @@
 
     <span style="display: inline-flex">
         <h2>Kataloger for @ViewBag.CustomerSite.name</h2>
-        <button type="button" class="btn btn-primary" style="margin-left: 20px; margin-bottom: 20px">Opret nyt katalog for @ViewBag.CustomerSite.name</button>
+        <a asp-action="CreateCustomerSiteCatalog" asp-controller="Admin"><button type="button" class="btn btn-primary" style="margin-left: 20px; margin-bottom: 20px">Opret nyt katalog for @ViewBag.CustomerSite.name</button></a>
         </span>
     <table class="table table-striped table-hover">
         <thead>

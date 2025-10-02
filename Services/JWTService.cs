@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
@@ -6,7 +7,7 @@ namespace AdminPortal.Services;
 
 public class JWTService
 {
-    public static void Authenticate(string token)
+    public static ClaimsPrincipal? Authenticate(string token)
     {
         string secretKey = EnvService.GetSecretKey();
         string issuer = EnvService.GetIssuer();
@@ -26,12 +27,14 @@ public class JWTService
         };
         try
         {
-            handler.ValidateToken(token, validationParameters, out SecurityToken securityToken);
+            var principal = handler.ValidateToken(token, validationParameters, out SecurityToken securityToken);
+            return principal;
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
+            return null;
         }
     }
-    
+
 }

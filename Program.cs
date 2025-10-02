@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using AdminPortal.Services;
 using AdminPortal.Services.Extensions;
@@ -18,9 +19,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "tdc.dk",
-            ValidAudiences = new[] { "tdc.dk" , "dsb.dk" , "skat.dk" },
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+            ValidIssuer = EnvService.GetIssuer(),
+            ValidAudiences = EnvService.GetAudiences(),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+            RoleClaimType = ClaimTypes.Role
         };
     });
 
