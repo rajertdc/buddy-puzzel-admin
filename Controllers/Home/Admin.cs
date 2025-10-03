@@ -37,7 +37,22 @@ public class Admin : Controller
     }
 
     [HttpGet]
-    public IActionResult Search(string term)
+    public IActionResult SearchCustomers(string term)
+    {
+        var customers = APIService.Customers.GetAllCustomers() ?? new List<Customer>();
+        if (!string.IsNullOrWhiteSpace(term))
+        {
+            var filtered = customers
+                .Where(c => !string.IsNullOrWhiteSpace(c.name) &&
+                            c.name.Contains(term, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+            return Json(filtered);
+        }
+
+        return Json(customers);
+    }
+    [HttpGet]
+    public IActionResult SearchAdmins(string term)
     {
         var customers = APIService.Customers.GetAllCustomers() ?? new List<Customer>();
         if (!string.IsNullOrWhiteSpace(term))
@@ -85,7 +100,7 @@ public class Admin : Controller
         ViewBag.Customer = customer;
         return View("Administration/CustomerSiteDir/CustomerSiteCatalogs", customerSiteCatalogs);
     }
-
+    //CREATION VIEWS SECTION
     public IActionResult CreateCustomer()
     {
         return View("Create/CreateCustomer");
@@ -98,6 +113,11 @@ public class Admin : Controller
     public IActionResult CreateCustomerSiteCatalog()
     {
         return View("Create/CreateCustomerSiteCatalog");
+    }
+
+    public IActionResult CreateCustomerSiteAdmin()
+    {
+        return View("Create/CreateCustomerSiteAdmin");
     }
     
 }
